@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InstaGrow — Instagram Growth Tool</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top,#3b0712 0,#100307 35%,#050505 75%);
+  color:#fff;
+}
+
+header{
+  padding:22px 16px;
+  text-align:center;
+  border-bottom:1px solid #42111b;
+  background:rgba(5,5,5,.85);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.logo span{
+  color:#ff234f;
+}
+
+.subtitle{
+  color:#aaa;
+  font-size:13px;
+  margin-top:6px;
+}
+
+.container{
+  width:94%;
+  max-width:900px;
+  margin:22px auto;
+}
+
+.card{
+  background:linear-gradient(145deg,#14070a,#090909);
+  border:1px solid #40121d;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 12px 35px rgba(0,0,0,.45);
+}
+
+.card h2{
+  font-size:20px;
+  margin-bottom:15px;
+}
+
+input,textarea,select{
+  width:100%;
+  padding:14px;
+  margin:7px 0 12px;
+  border-radius:12px;
+  border:1px solid #44202a;
+  background:#090909;
+  color:#fff;
+  outline:none;
+}
+
+input:focus,textarea:focus,select:focus{
+  border-color:#ff234f;
+}
+
+button{
+  border:0;
+  border-radius:12px;
+  padding:13px 18px;
+  background:linear-gradient(135deg,#ff1748,#9b071f);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  margin:4px;
+}
+
+button:active{
+  transform:scale(.97);
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.stat{
+  text-align:center;
+  background:#0b0b0b;
+  border:1px solid #35101a;
+  border-radius:14px;
+  padding:16px 8px;
+}
+
+.stat b{
+  display:block;
+  color:#ff3158;
+  font-size:22px;
+}
+
+.stat small{
+  color:#999;
+}
+
+.result{
+  margin-top:12px;
+  padding:15px;
+  background:#080808;
+  border-left:3px solid #ff234f;
+  border-radius:10px;
+  line-height:1.6;
+  color:#ddd;
+}
+
+.hashtags{
+  line-height:2;
+  color:#ff8aa1;
+  word-break:break-word;
+}
+
+.idea{
+  padding:14px;
+  margin:8px 0;
+  border-radius:12px;
+  background:#10090b;
+  border:1px solid #35101a;
+}
+
+.notice{
+  font-size:12px;
+  color:#888;
+  margin-top:10px;
+  line-height:1.5;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#666;
+  font-size:12px;
+}
+
+@media(max-width:600px){
+  .stats{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .card{
+    padding:16px;
+  }
+
+  .logo{
+    font-size:24px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Insta<span>Grow</span> 🚀</div>
+  <div class="subtitle">Smart Instagram Growth Planner</div>
+</header>
+
+<div class="container">
+
+  <!-- PROFILE -->
+  <div class="card">
+    <h2>👤 Profile Growth Tracker</h2>
+
+    <input id="followers" type="number" placeholder="Current followers">
+    <input id="target" type="number" placeholder="Target followers">
+
+    <button onclick="calculateGrowth()">Calculate</button>
+
+    <div id="growthResult"></div>
+  </div>
+
+  <!-- ENGAGEMENT -->
+  <div class="card">
+    <h2>📊 Engagement Calculator</h2>
+
+    <input id="likes" type="number" placeholder="Likes">
+    <input id="comments" type="number" placeholder="Comments">
+    <input id="reach" type="number" placeholder="Reach">
+
+    <button onclick="calculateEngagement()">Calculate Engagement</button>
+
+    <div id="engagementResult"></div>
+  </div>
+
+  <!-- HASHTAG -->
+  <div class="card">
+    <h2>#️⃣ Hashtag Planner</h2>
+
+    <input id="topic" placeholder="Enter your niche, e.g. fitness">
+
+    <button onclick="generateHashtags()">Generate Hashtags</button>
+
+    <div id="hashtagResult"></div>
+  </div>
+
+  <!-- CAPTION -->
+  <div class="card">
+    <h2>✍️ Caption Generator</h2>
+
+    <select id="captionType">
+      <option value="motivation">Motivation</option>
+      <option value="fitness">Fitness</option>
+      <option value="business">Business</option>
+      <option value="fashion">Fashion</option>
+      <option value="travel">Travel</option>
+      <option value="general">General</option>
+    </select>
+
+    <button onclick="generateCaption()">Generate Caption</button>
+
+    <div id="captionResult"></div>
+  </div>
+
+  <!-- REEL IDEAS -->
+  <div class="card">
+    <h2>🔥 Reel Ideas</h2>
+
+    <input id="reelTopic" placeholder="Enter your topic">
+
+    <button onclick="generateIdeas()">Generate Ideas</button>
+
+    <div id="ideaResult"></div>
+  </div>
+
+  <!-- 30 DAY -->
+  <div class="card">
+    <h2>📅 30-Day Posting Plan</h2>
+
+    <button onclick="generatePlan()">Create Plan</button>
+
+    <div id="planResult"></div>
+  </div>
+
+  <!-- BIO -->
+  <div class="card">
+    <h2>👤 Bio Analyzer</h2>
+
+    <textarea id="bio" rows="5"
+      placeholder="Paste your Instagram bio here..."></textarea>
+
+    <button onclick="analyzeBio()">Analyze Bio</button>
+
+    <div id="bioResult"></div>
+  </div>
+
+  <div class="card">
+    <h2>⚡ Growth Rules</h2>
+
+    <div class="result">
+      • Post consistently<br>
+      • Make the first 2 seconds of a Reel strong<br>
+      • Reply to comments<br>
+      • Use relevant hashtags<br>
+      • Study your analytics<br>
+      • Create original content<br>
+      • Avoid fake followers and engagement bots
+    </div>
+
+    <div class="notice">
+      This tool helps with organic growth planning. It does not access Instagram
+      accounts or artificially create followers, likes or views.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  InstaGrow • Organic Instagram Growth Planner
+</footer>
+
+<script>
+
+function calculateGrowth(){
+
+  const current =
+    Number(document.getElementById("followers").value);
+
+  const target =
+    Number(document.getElementById("target").value);
+
+  if(!current || !target || target <= current){
+    document.getElementById("growthResult").innerHTML =
+      `<div class="result">
+      Please enter a target higher than your current followers.
+      </div>`;
+    return;
+  }
+
+  const needed = target-current;
+
+  document.getElementById("growthResult").innerHTML =
+    `<div class="result">
+      You need approximately <b>${needed.toLocaleString()}</b>
+      additional followers to reach your target.
+      <br><br>
+      Focus on consistent content and measure your weekly progress.
+    </div>`;
+}
+
+
+function calculateEngagement(){
+
+  const likes = Number(document.getElementById("likes").value);
+  const comments = Number(document.getElementById("comments").value);
+  const reach = Number(document.getElementById("reach").value);
+
+  if(!reach){
+    document.getElementById("engagementResult").innerHTML =
+      `<div class="result">Enter your reach.</div>`;
+    return;
+  }
+
+  const rate = ((likes+comments)/reach)*100;
+
+  document.getElementById("engagementResult").innerHTML =
+    `<div class="result">
+      Engagement rate by reach:
+      <b>${rate.toFixed(2)}%</b>
+    </div>`;
+}
+
+
+function generateHashtags(){
+
+  const topic =
+    document.getElementById("topic").value.trim();
+
+  if(!topic){
+    document.getElementById("hashtagResult").innerHTML =
+      `<div class="result">Enter a topic first.</div>`;
+    return;
+  }
+
+  const clean = topic.toLowerCase()
+    .replace(/[^a-z0-9 ]/g,"")
+    .replace(/\s+/g,"");
+
+  const tags = [
+    clean,
+    clean+"india",
+    clean+"reels",
+    clean+"creator",
+    clean+"tips",
+    clean+"content",
+    "instagram",
+    "reels",
+    "explorepage",
+    "contentcreator",
+    "viralreels",
+    "trending",
+    "creatorindia",
+    "instagrowth",
+    "reelitfeelit"
+  ];
+
+  document.getElementById("hashtagResult").innerHTML =
+    `<div class="result hashtags">
+      ${tags.map(x => "#"+x).join(" ")}
+    </div>`;
+}
+
+
+function generateCaption(){
+
+  const type =
+    document.getElementById("captionType").value;
+
+  const captions = {
+
+    motivation:[
+      "Small steps every day. Big results over time. 🚀",
+      "Discipline today creates the results you want tomorrow. 🔥",
+      "Keep going. Your future self will thank you."
+    ],
+
+    fitness:[
+      "Train your body. Build your discipline. 💪",
+      "No shortcuts. Just consistency.",
+      "One workout closer to the goal. 🔥"
+    ],
+
+    business:[
+      "Build skills first. Results follow.",
+      "Think bigger. Start smaller. Keep moving.",
+      "Consistency turns ideas into businesses."
+    ],
+
+    fashion:[
+      "Your style is your signature. ✨",
+      "Simple look. Strong energy.",
+      "Wear confidence."
+    ],
+
+    travel:[
+      "Collect moments, not just things. 🌍",
+      "New place. New memories.",
+      "Adventure starts outside your comfort zone."
+    ],
+
+    general:[
+      "Creating moments worth remembering. ✨",
+      "Good energy. Better memories.",
+      "Just getting started. 🚀"
+    ]
+  };
+
+  const list = captions[type];
+  const caption = list[Math.floor(Math.random()*list.length)];
+
+  document.getElementById("captionResult").innerHTML =
+    `<div class="result">${caption}</div>`;
+}
+
+
+function generateIdeas(){
+
+  const topic =
+    document.getElementById("reelTopic").value.trim() || "your niche";
+
+  const ideas = [
+    `3 mistakes people make in ${topic}`,
+    `Before vs after: ${topic}`,
+    `Myth vs reality about ${topic}`,
+    `5 quick tips about ${topic}`,
+    `Things I wish I knew about ${topic}`,
+    `Beginner guide to ${topic}`,
+    `A day in my ${topic} journey`,
+    `Top 3 tools for ${topic}`,
+    `Common questions about ${topic}`,
+    `Reacting to a popular ${topic} trend`
+  ];
+
+  document.getElementById("ideaResult").innerHTML =
+    ideas.map((idea,i)=>
+      `<div class="idea"><b>${i+1}.</b> ${idea}</div>`
+    ).join("");
+}
+
+
+function generatePlan(){
+
+  const topics = [
+    "Educational Reel",
+    "Trending Reel",
+    "Personal Story",
+    "Quick Tip",
+    "Behind the Scenes",
+    "Before/After",
+    "FAQ Reel",
+    "Myth vs Reality",
+    "Tutorial",
+    "Motivation",
+    "Product/Skill Showcase",
+    "Community Question",
+    "Reaction",
+    "Day in the Life",
+    "Top 5 Tips"
+  ];
+
+  let html="";
+
+  for(let i=1;i<=30;i++){
+
+    const topic = topics[(i-1)%topics.length];
+
+    html +=
+      `<div class="idea">
+        <b>Day ${i}</b> — ${topic}
+      </div>`;
+  }
+
+  document.getElementById("planResult").innerHTML = html;
+}
+
+
+function analyzeBio(){
+
+  const bio =
+    document.getElementById("bio").value.trim();
+
+  if(!bio){
+    document.getElementById("bioResult").innerHTML =
+      `<div class="result">Paste your bio first.</div>`;
+    return;
+  }
+
+  const tips=[];
+
+  if(bio.length < 50)
+    tips.push("Add a clearer description of what you offer.");
+
+  if(bio.length > 150)
+    tips.push("Consider making your bio shorter and easier to scan.");
+
+  if(!/@/.test(bio))
+    tips.push("Consider adding a contact or business handle if relevant.");
+
+  if(!/[0-9]/.test(bio))
+    tips.push("Consider adding a measurable result or useful detail.");
+
+  if(tips.length===0)
+    tips.push("Your bio has a useful amount of information. Keep it clear and specific.");
+
+  document.getElementById("bioResult").innerHTML =
+    `<div class="result">
+      ${tips.map(x=>"• "+x).join("<br>")}
+    </div>`;
+}
+
+</script>
+
+</body>
+  </html>
